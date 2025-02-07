@@ -6,7 +6,7 @@ i2c = board.I2C()
 bme680 = adafruit_bme680.Adafruit_BME680_I2C(i2c)
 
 bme680.seal_level_pressure = 1013.25
-start_time = time.time()
+
 duration = 6
 while  time.time() - start_time < duration:
 	start_time = time.time()
