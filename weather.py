@@ -4,14 +4,22 @@ import board
 
 i2c = board.I2C()
 bme680 = adafruit_bme680.Adafruit_BME680_I2C(i2c)
+bme680.sea_level_pressure = 1013.25  
 
-bme680.seal_level_pressure = 1013.25
+duration = 10  
+start_time = time.time()
 
-duration = 6
-while  time.time() - start_time < duration:
-	start_time = time.time()
-	t = time.localtime()
-	current_time = time.strftime("%H:%M:%S", t)
-	print(current_time, "\nTemperature: %0.1f C" % bme680.temperature, "Gas: %d ohm" % bme680.gas, "Humidity: %0.1f %%" % bme680.relative_humidity, "Pressure: %0.3f hPa" % bme680.pressure, "Altitude = %0.2f meters" % bme680.altitude)	
-	time.sleep(2)
-	
+while time.time() - start_time < duration:
+    current_time = time.strftime("%H:%M:%S", time.localtime())
+
+    temperature = bme680.temperature
+    gas = bme680.gas
+    humidity = bme680.relative_humidity
+    pressure = bme680.pressure
+    altitude = bme680.altitude
+
+
+      print(f"\rcurrent time: {current_time} | Temperature: {bme680.temperature:.1f} C | Gas: {bme680.gas} ohm | Humidity: {bme680.relative_humidity:.1f}% | Pressure: {bme680.pressure:.3f} hPa | Altitude: {bme680.altitude:.2f} meters")
+
+
+    time.sleep(2)  # Wait 2 seconds before next reading
