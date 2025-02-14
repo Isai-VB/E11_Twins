@@ -12,6 +12,11 @@ pm25 = PM25_UART(uart, reset_pin)
 filename = "pm25_data.csv"
 with open(filename, "w", newline='') as file:
     file_writer = csv.writer(file)
+    
+    # Write meta-data line
+    file_writer.writerow(["PM2.5 Sensor Data Log - Captured Readings with Timestamps"])
+    
+    # Write CSV headers
     file_writer.writerow([
         "Timestamp", "PM1.0 (standard)", "PM2.5 (standard)", "PM10 (standard)",
         "PM1.0 (env)", "PM2.5 (env)", "PM10 (env)",
@@ -20,7 +25,10 @@ with open(filename, "w", newline='') as file:
     ])
 
     print("Found PM2.5 sensor, reading data...")
-    while True:
+    start_time = time.time()
+    duration = 60  # Run for 60 seconds
+    
+    while time.time() - start_time < duration:
         time.sleep(1)
         try:
             aqdata = pm25.read()
