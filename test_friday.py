@@ -10,6 +10,6 @@ file_writer.writerow(["Time", "Data"])
 
 for i in range(10):
     entry = np.random.random()
-    now - time.time()
+    now = time.time()
     file_writer.writerow([now, entry])
 file.close()
