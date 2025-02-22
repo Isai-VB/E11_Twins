@@ -4,7 +4,7 @@ import serial
 from adafruit_pm25.uart import PM25_UART
 
 # Initialize UART connection to PM2.5 sensor
-uart = serial.Serial("/dev/ttyS0", baudrate=9600, timeout=0.25)
+uart = serial.Serial("/dev/ttyS0", baudrate=9600, timeout=1)
 reset_pin = None  # Adjust if using a reset pin
 pm25 = PM25_UART(uart, reset_pin)
 
