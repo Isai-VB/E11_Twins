@@ -19,7 +19,7 @@ while time.time() - start_time < duration:
     altitude = bme680.altitude
 
 
-    print(f"\rcurrent time: {current_time} | Temperature: {bme680.temperature:.1f} C | Gas: {bme680.gas} ohm | Humidity: {bme680.relative_humidity:.1f}% | Pressure: {bme680.pressure:.3f} hPa | Altitude: {bme680.altitude:.2f} meters")
+    print(f"\rcurrent time: {currenht_time} | Temperature: {bme680.temperature:.1f} C | Gas: {bme680.gas} ohm | Humidity: {bme680.relative_humidity:.1f}% | Pressure: {bme680.pressure:.3f} hPa | Altitude: {bme680.altitude:.2f} meters")
 
 
     time.sleep(2)  # Wait 2 seconds before next reading
