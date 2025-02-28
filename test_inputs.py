@@ -34,12 +34,12 @@ with open(filename, "w", newline='') as file:
     
     # Write CSV Headers
     file_writer.writerow([
-        "Current Time",
-        "Temperature (C)", "Gas (ohm)", "Humidity (%)", "Pressure (hPa)", "Altitude (m)",
-        "PM1.0 (standard)", "PM2.5 (standard)", "PM10 (standard)",
-        "PM1.0 (env)", "PM2.5 (env)", "PM10 (env)",
-        "Particles >0.3um", "Particles >0.5um", "Particles >1.0um",
-        "Particles >2.5um", "Particles >5.0um", "Particles >10um"
+        "Time",
+        "Temp", "Gas", "Humidity", "Pressure", "Altitude",
+        "PM1.0std", "PM2.5std", "PM10std",
+        "PM1.0env", "PM2.5env", "PM10env",
+        "Particles 0.3um", "Particles 0.5um", "Particles 1.0um",
+        "Particles 2.5um", "Particles 5.0um", "Particles 10um"
     ])
 
     print("reading data...")
@@ -49,7 +49,7 @@ with open(filename, "w", newline='') as file:
     while time.time() - start_time < run_time:
         current_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
-        temperature = bme680.temperature
+        temp = bme680.temperature
         gas = bme680.gas
         humidity = bme680.relative_humidity
         pressure = bme680.pressure
