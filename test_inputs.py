@@ -6,14 +6,13 @@ import serial
 import adafruit_bme680
 from adafruit_pm25.uart import PM25_UART
 
-
 print(sys.argv)
 
 if len(sys.argv) < 2:
-  print("Script requires run_time(int) as an input")
-  exit()
+    print("Script requires run_time(int) as an input")
+    exit()
 else:
-  run_time = int(sys.argv[1])
+    run_time = int(sys.argv[1])
 
 i2c = board.I2C()
 bme680 = adafruit_bme680.Adafruit_BME680_I2C(i2c)
@@ -22,7 +21,6 @@ bme680.sea_level_pressure = 1013.25
 uart = serial.Serial("/dev/ttyS0", baudrate=9600, timeout=1)
 reset_pin = None  
 pm25 = PM25_UART(uart, reset_pin)
-
 
 # Open CSV file 
 filename = "NewSensors.csv"
@@ -42,7 +40,7 @@ with open(filename, "w", newline='') as file:
         "Particles 2.5um", "Particles 5.0um", "Particles 10um"
     ])
 
-    print("reading data...")
+    print("Reading data...")
     
     start_time = time.time()
     
@@ -59,20 +57,19 @@ with open(filename, "w", newline='') as file:
             aqdata = pm25.read()
         except RuntimeError:
             print("Unable to read from sensor, retrying...")
+            time.sleep(1)  # Wait before retrying
             continue
 
-      
         # Extract data and write to CSV
         row = [
             current_time,
-            temperature, gas, humidity, pressure, altitude,
+            temp, gas, humidity, pressure, altitude,
             aqdata["pm10 standard"], aqdata["pm25 standard"], aqdata["pm100 standard"],
             aqdata["pm10 env"], aqdata["pm25 env"], aqdata["pm100 env"],
-            aqdata["particles 03um"], aqdata["particles 05um"], aqdata["particles 10um"],
-            aqdata["particles 25um"], aqdata["particles 50um"], aqdata["particles 100um"]
+            aqdata["particles 0.3um"], aqdata["particles 0.5um"], aqdata["particles 1.0um"],
+            aqdata["particles 2.5um"], aqdata["particles 5.0um"], aqdata["particles 10um"]
         ]
         file_writer.writerow(row)
         print("Logged data:", row)
 
-
-    time.sleep(2)  # Wait 2 seconds before next reading
+        time.sleep(2)  # Wait 2 seconds before the next reading
