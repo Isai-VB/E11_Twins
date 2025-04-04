@@ -20,14 +20,20 @@ def pulse_detected(channel):
 GPIO.add_event_detect(SENSOR_PIN, GPIO.FALLING, callback=pulse_detected)
 
 try:
+    start_time = time.time()  # Record the start time
     while True:
-        for i in range(60):  # Loop for 60 seconds
-            count_per_second = 0  # Reset count every second
-            time.sleep(1)  # Wait for a second
-            print(f"Second {i+1}: {count_per_second} counts")  # Print count for that second
+        current_time = time.time()  # Get the current time
+        elapsed_time = current_time - start_time  # Calculate elapsed time
 
-        print(f"Total counts in last 60 seconds: {total_count}")  # Print total count for the minute
-        total_count = 0  # Reset total count for the next minute
+        if elapsed_time >= 60:  # Stop the loop after 60 seconds
+            break
+
+        # Reset the count per second
+        count_per_second = 0
+        time.sleep(1)  # Wait for 1 second
+        print(f"Second {int(elapsed_time)+1}: {count_per_second} counts")  # Print counts for the second
+
+    print(f"Total counts in last 60 seconds: {total_count}")  # Print total count for the minute
 
 except KeyboardInterrupt:
     print("\nStopping script...")
