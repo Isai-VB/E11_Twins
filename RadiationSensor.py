@@ -34,8 +34,10 @@ def run_for_duration(run_time, count_interval, output_file):
                     # Wait for the interval time to pass
                     pass
                 
+                # Get the current time in a human-readable format
+                timestamp = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+                
                 # Write the current count and timestamp to the file
-                timestamp = time.time()
                 file.write(f"{timestamp},{total_count}\n")
                 print(f"Timestamp: {timestamp}, Count: {total_count}")
                 
