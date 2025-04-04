@@ -6,20 +6,19 @@ SENSOR_PIN = 17  # Change this to the GPIO pin you're using
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(SENSOR_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
-# Global variables
-count_per_second = 0
+# Global variable to store the total count
 total_count = 0
 
 # Callback function for detecting pulses
 def pulse_detected(channel):
-    global count_per_second, total_count
-    count_per_second += 1
+    global total_count
     total_count += 1
 
 # Attach event detection
 GPIO.add_event_detect(SENSOR_PIN, GPIO.FALLING, callback=pulse_detected)
 
 def run_for_duration(run_time, count_interval, output_file):
+    global total_count
     try:
         start_time = time.time()
         end_time = start_time + run_time  # Set the run duration
