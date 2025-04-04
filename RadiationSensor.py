@@ -37,11 +37,11 @@ def run_for_duration(run_time, count_interval, output_file):
                 # Get the current time in a human-readable format
                 timestamp = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
                 
-                # Write the current count and timestamp to the file
+                # Write the current count and timestamp to the file for each 10-second batch
                 file.write(f"{timestamp},{total_count}\n")
                 print(f"Timestamp: {timestamp}, Count: {total_count}")
                 
-                # Reset the total count for the next interval
+                # Reset the total count for the next interval (10 seconds)
                 total_count = 0
                 current_time = time.time()
 
@@ -50,9 +50,9 @@ def run_for_duration(run_time, count_interval, output_file):
         GPIO.cleanup()  # Clean up GPIO on exit
 
 if __name__ == "__main__":
-    # Automatically set runtime to 120 seconds (2 minutes) and count interval to 1 second
+    # Automatically set runtime to 120 seconds (2 minutes) and count interval to 10 seconds
     run_time = 120
-    count_interval = 1
+    count_interval = 10  # 10-second interval for batch reporting
     output_file = "radiation_data.csv"  # Output file name
 
     # Run the script with the pre-defined values
