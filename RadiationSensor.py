@@ -1,6 +1,5 @@
 import RPi.GPIO as GPIO
 import time
-import argparse
 
 # Set up GPIO pin for radiation sensor
 SENSOR_PIN = 17  # Change this to the GPIO pin you're using
@@ -50,13 +49,10 @@ def run_for_duration(run_time, count_interval, output_file):
         GPIO.cleanup()  # Clean up GPIO on exit
 
 if __name__ == "__main__":
-    # Parse input arguments
-    parser = argparse.ArgumentParser(description="Radiation Sensor Count Logger")
-    parser.add_argument("run_time", type=int, help="Total runtime in seconds")
-    parser.add_argument("count_interval", type=int, help="Interval between counts in seconds")
-    parser.add_argument("output_file", type=str, help="Output file to save the results")
+    # Ask for user input
+    run_time = int(input("Enter the total runtime in seconds: "))
+    count_interval = int(input("Enter the count interval in seconds: "))
+    output_file = input("Enter the output file name (e.g., 'radiation_data.csv'): ")
 
-    args = parser.parse_args()
-
-    # Run the script with the provided arguments
-    run_for_duration(args.run_time, args.count_interval, args.output_file)
+    # Run the script with the provided input values
+    run_for_duration(run_time, count_interval, output_file)
