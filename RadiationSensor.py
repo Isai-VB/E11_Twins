@@ -49,10 +49,10 @@ def run_for_duration(run_time, count_interval, output_file):
         GPIO.cleanup()  # Clean up GPIO on exit
 
 if __name__ == "__main__":
-    # Ask for user input
-    run_time = int(input("Enter the total runtime in seconds: "))
-    count_interval = int(input("Enter the count interval in seconds: "))
-    output_file = input("Enter the output file name (e.g., 'radiation_data.csv'): ")
+    # Automatically set runtime to 120 seconds (2 minutes) and count interval to 1 second
+    run_time = 120
+    count_interval = 1
+    output_file = "radiation_data.csv"  # Output file name
 
-    # Run the script with the provided input values
+    # Run the script with the pre-defined values
     run_for_duration(run_time, count_interval, output_file)
