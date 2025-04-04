@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
 import time
+import argparse
 
 # Set up GPIO pin for radiation sensor
 SENSOR_PIN = 17  # Change this to the GPIO pin you're using
@@ -19,16 +20,43 @@ def pulse_detected(channel):
 # Attach event detection
 GPIO.add_event_detect(SENSOR_PIN, GPIO.FALLING, callback=pulse_detected)
 
-try:
-    while True:
-        for i in range(60):  # Loop for 60 seconds
-            count_per_second = 0  # Reset count every second
-            time.sleep(1)  # Wait for a second
-            print(f"Second {i+1}: {count_per_second} counts")  # Print count for that second
+def run_for_duration(run_time, count_interval, output_file):
+    try:
+        start_time = time.time()
+        end_time = start_time + run_time  # Set the run duration
+        current_time = time.time()
 
-        print(f"Total counts in last 60 seconds: {total_count}")  # Print total count for the minute
-        total_count = 0  # Reset total count for the next minute
+        with open(output_file, 'w') as file:
+            file.write("Timestamp,Count\n")  # Header for the output file
 
-except KeyboardInterrupt:
-    print("\nStopping script...")
-    GPIO.cleanup()  # Clean up GPIO on exit
+            while current_time < end_time:
+                interval_end_time = time.time() + count_interval
+
+                while time.time() < interval_end_time:
+                    # Wait for the interval time to pass
+                    pass
+                
+                # Write the current count and timestamp to the file
+                timestamp = time.time()
+                file.write(f"{timestamp},{total_count}\n")
+                print(f"Timestamp: {timestamp}, Count: {total_count}")
+                
+                # Reset the total count for the next interval
+                total_count = 0
+                current_time = time.time()
+
+    except KeyboardInterrupt:
+        print("\nStopping script...")
+        GPIO.cleanup()  # Clean up GPIO on exit
+
+if __name__ == "__main__":
+    # Parse input arguments
+    parser = argparse.ArgumentParser(description="Radiation Sensor Count Logger")
+    parser.add_argument("run_time", type=int, help="Total runtime in seconds")
+    parser.add_argument("count_interval", type=int, help="Interval between counts in seconds")
+    parser.add_argument("output_file", type=str, help="Output file to save the results")
+
+    args = parser.parse_args()
+
+    # Run the script with the provided arguments
+    run_for_duration(args.run_time, args.count_interval, args.output_file)
